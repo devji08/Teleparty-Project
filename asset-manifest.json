@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Teleparty-Project/static/css/main.6fbf3b1a.css",
-    "main.js": "/Teleparty-Project/static/js/main.53a05638.js",
+    "main.js": "/Teleparty-Project/static/js/main.ef8bed58.js",
     "static/js/787.88bedaaf.chunk.js": "/Teleparty-Project/static/js/787.88bedaaf.chunk.js",
     "index.html": "/Teleparty-Project/index.html",
     "main.6fbf3b1a.css.map": "/Teleparty-Project/static/css/main.6fbf3b1a.css.map",
-    "main.53a05638.js.map": "/Teleparty-Project/static/js/main.53a05638.js.map",
+    "main.ef8bed58.js.map": "/Teleparty-Project/static/js/main.ef8bed58.js.map",
     "787.88bedaaf.chunk.js.map": "/Teleparty-Project/static/js/787.88bedaaf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6fbf3b1a.css",
-    "static/js/main.53a05638.js"
+    "static/js/main.ef8bed58.js"
   ]
 }
