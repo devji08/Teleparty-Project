@@ -25,11 +25,13 @@ export const fetchUserData = async (name) => {
     }
   }`;
 
+  const token = atob(process.env.REACT_APP_GITHUB_TOKEN.split(":").join(""));
+
   const options = {
     method: "POST",
     url: "https://api.github.com/graphql",
     headers: {
-      authorization: `Bearer ${atob(process.env.REACT_APP_GITHUB_TOKEN)}`,
+      authorization: `Bearer ${token}`,
     },
     data: {
       query: query,
