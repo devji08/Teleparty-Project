@@ -1,8 +1,31 @@
 import axios from "axios";
 
-export const fetchUserData = async (name) => {
-  const query = `query Search($query: String!) {
+export const fetchUserData = async (name, after) => {
+  const initialQuery = `query Search($query: String!) {
     search(query: $query, type: USER, first: 10) {
+      pageInfo {
+        startCursor
+        hasNextPage
+        endCursor
+      }
+      userCount
+      edges {
+        node {
+          ... on User {
+            name
+            login
+            avatarUrl
+            followers {
+              totalCount
+            }
+            url
+          }
+        }
+      }
+    }
+  }`,
+    afterQuery = `query Search($query: String!, $after: String!) {
+    search(query: $query, type: USER, first: 10, after: $after) {
       pageInfo {
         startCursor
         hasNextPage
@@ -26,6 +49,15 @@ export const fetchUserData = async (name) => {
   }`;
 
   const token = atob(process.env.REACT_APP_GITHUB_TOKEN.split(":").join(""));
+  let query,
+    variables = { query: `${name} in:name sort:followers` };
+
+  if (after) {
+    query = afterQuery;
+    variables.after = after;
+  } else {
+    query = initialQuery;
+  }
 
   const options = {
     method: "POST",
@@ -34,8 +66,8 @@ export const fetchUserData = async (name) => {
       authorization: `Bearer ${token}`,
     },
     data: {
-      query: query,
-      variables: { query: `${name} in:name sort:followers` },
+      query,
+      variables,
     },
   };
 

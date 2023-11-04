@@ -18,23 +18,30 @@ const UserDataTable = ({ name }) => {
     const users = _.map(data.data.search.edges, (item) => item.node);
     const pageInfo = data.data.search.pageInfo;
     const userCount = data.data.search.userCount;
+    if (pageInfo.startCursor === pageInfo.endCursor) {
+      pageInfo.startCursor = null;
+    }
 
     return { users, pageInfo, userCount };
   };
 
+  const fetchData = (name, after) => {
+    setLoading(true);
+    fetchUserData(name, after)
+      .then((res) => {
+        const newState = getStateFromData(res);
+        setUserData(newState);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     if (!_.isEmpty(name)) {
-      setLoading(true);
-      fetchUserData(name)
-        .then((res) => {
-          const newState = getStateFromData(res);
-          setUserData(newState);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
+      fetchData(name, null, null);
     }
   }, [name]);
 
@@ -68,6 +75,19 @@ const UserDataTable = ({ name }) => {
           return <UserRow key={user.login} user={user} />;
         }
       })}
+      <div className="flex">
+        <button
+          className="bg-red-800 text-center text-white p-2 rounded"
+          disabled={
+            userData.pageInfo.startCursor === userData.pageInfo.endCursor
+          }
+          onClick={() => {
+            fetchData(name, userData.pageInfo.endCursor);
+          }}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

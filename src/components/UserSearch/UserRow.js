@@ -1,7 +1,6 @@
 import React from "react";
 
 const UserRow = ({ user }) => {
-  console.log(user);
   return (
     <div className="flex items-center">
       <div className="flex-1">
